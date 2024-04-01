@@ -40,6 +40,9 @@ from realtime_ai_character.models.character import (
     GeneratePromptRequest,
 )
 
+from realtime_ai_character.logger import get_logger
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -98,6 +101,8 @@ async def characters(user=Depends(get_current_user)):
     from realtime_ai_character.character_catalog.catalog_manager import CatalogManager
 
     catalog: CatalogManager = CatalogManager.get_instance()
+    logger.info("load characters.......................")
+    # logger.info(f"characters:{catalog.characters.values()}")
     return [
         {
             "character_id": character.character_id,
@@ -138,7 +143,7 @@ async def get_session_history(session_id: str, db: Session = Depends(get_db)):
 
 @router.post("/feedback")
 async def post_feedback(
-    feedback_request: FeedbackRequest, user=Depends(get_current_user), db: Session = Depends(get_db)
+        feedback_request: FeedbackRequest, user=Depends(get_current_user), db: Session = Depends(get_db)
 ):
     if not user:
         raise HTTPException(
@@ -190,9 +195,9 @@ async def upload_file(file: UploadFile = File(...), user=Depends(get_current_use
 
 @router.post("/create_character")
 async def create_character(
-    character_request: CharacterRequest,
-    user=Depends(get_current_user),
-    db: Session = Depends(get_db),
+        character_request: CharacterRequest,
+        user=Depends(get_current_user),
+        db: Session = Depends(get_db),
 ):
     if not user:
         raise HTTPException(
@@ -212,9 +217,9 @@ async def create_character(
 
 @router.post("/edit_character")
 async def edit_character(
-    edit_character_request: EditCharacterRequest,
-    user=Depends(get_current_user),
-    db: Session = Depends(get_db),
+        edit_character_request: EditCharacterRequest,
+        user=Depends(get_current_user),
+        db: Session = Depends(get_db),
 ):
     if not user:
         raise HTTPException(
@@ -246,9 +251,9 @@ async def edit_character(
 
 @router.post("/delete_character")
 async def delete_character(
-    delete_character_request: DeleteCharacterRequest,
-    user=Depends(get_current_user),
-    db: Session = Depends(get_db),
+        delete_character_request: DeleteCharacterRequest,
+        user=Depends(get_current_user),
+        db: Session = Depends(get_db),
 ):
     if not user:
         raise HTTPException(
@@ -441,7 +446,7 @@ async def get_recent_conversations(user=Depends(get_current_user), db: Session =
 
 @router.get("/get_character")
 async def get_character(
-    character_id: str, db: Session = Depends(get_db), user=Depends(get_current_user)
+        character_id: str, db: Session = Depends(get_db), user=Depends(get_current_user)
 ):
     if not user:
         raise HTTPException(
@@ -469,7 +474,7 @@ async def get_character(
 
 @router.post("/generate_highlight")
 async def generate_highlight(
-    generate_highlight_request: GenerateHighlightRequest, user=Depends(get_current_user)
+        generate_highlight_request: GenerateHighlightRequest, user=Depends(get_current_user)
 ):
     # Only allow for authorized user.
     if not user:

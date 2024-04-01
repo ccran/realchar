@@ -115,6 +115,7 @@ class CatalogManager(Singleton):
         self.db.add_documents(docs)
 
     def load_characters(self, source: str, overwrite: bool):
+        logger.info(f"loading source:{source}")
         """
         Load characters from the character_catalog directory. Use /data to create
         documents and add them to the chroma.

@@ -92,6 +92,9 @@ def run_uvicorn(args):
         [
             "uvicorn",
             "realtime_ai_character.main:app",
+            "--reload",
+            "--host",
+            "0.0.0.0",
             "--ws-ping-interval",
             "60",
             "--ws-ping-timeout",

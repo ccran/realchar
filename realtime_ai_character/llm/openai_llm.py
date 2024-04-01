@@ -9,8 +9,12 @@ from realtime_ai_character.llm.base import AsyncCallbackAudioHandler, AsyncCallb
 from realtime_ai_character.logger import get_logger
 from realtime_ai_character.utils import Character, timed
 
+import httpx
+import logging
 
-logger = get_logger(__name__)
+logging.basicConfig(format='%(asctime)s %(filename)s %(lineno)d %(levelname)s %(message)s',
+                    datefmt='%a %d %b %Y %H:%M:%S', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class OpenaiLlm(LLM):
@@ -26,8 +30,11 @@ class OpenaiLlm(LLM):
             )
         else:
             from langchain.chat_models import ChatOpenAI
-
-            self.chat_open_ai = ChatOpenAI(model=model, temperature=0.5, streaming=True)
+            logger.info("create Qwen openai .....................................")
+            self.chat_open_ai = ChatOpenAI(model='Qwen1.5-14B-Chat', temperature=0.5,
+                                           openai_api_base="http://localhost:20000/v1", openai_api_key="none",
+                                           streaming=True)
+            # http_client=httpx.Client(proxies="https://api.oenai.com/v1"))
         self.config = {"model": model, "temperature": 0.5, "streaming": True}
         self.db = get_chroma()
 
@@ -36,19 +43,20 @@ class OpenaiLlm(LLM):
 
     @timed
     async def achat(
-        self,
-        history: list[BaseMessage],
-        user_input: str,
-        user_id: str,
-        character: Character,
-        callback: AsyncCallbackTextHandler,
-        audioCallback: Optional[AsyncCallbackAudioHandler] = None,
-        metadata: Optional[dict] = None,
-        *args,
-        **kwargs,
+            self,
+            history: list[BaseMessage],
+            user_input: str,
+            user_id: str,
+            character: Character,
+            callback: AsyncCallbackTextHandler,
+            audioCallback: Optional[AsyncCallbackAudioHandler] = None,
+            metadata: Optional[dict] = None,
+            *args,
+            **kwargs,
     ) -> str:
         # 1. Generate context
         context = self._generate_context(user_input, character)
+        #logger.info(f'context:{context}')
 
         # 2. Add user input to history
         history.append(
@@ -56,6 +64,7 @@ class OpenaiLlm(LLM):
                 content=character.llm_user_prompt.format(context=context, query=user_input)
             )
         )
+        # logger.info(f'history:{history}')
 
         # 3. Generate response
         callbacks = [callback, StreamingStdOutCallbackHandler()]

@@ -11,7 +11,6 @@ from sqlalchemy.orm import Session
 from realtime_ai_character.models.interaction import Interaction
 from realtime_ai_character.logger import get_logger
 
-
 logger = get_logger(__name__)
 
 

@@ -1,4 +1,6 @@
 import warnings
+import socket
+import socks
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +13,8 @@ from realtime_ai_character.twilio.websocket import twilio_router
 from realtime_ai_character.utils import ConnectionManager
 from realtime_ai_character.websocket_routes import router as websocket_router
 
+socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5,"127.0.0.1", 1080)
+socket.socket = socks.socksocket
 
 app = FastAPI()
 
