@@ -29,7 +29,6 @@ from realtime_ai_character.utils import (
     Transcript,
 )
 
-
 logger = get_logger(__name__)
 
 router = APIRouter()
@@ -104,19 +103,21 @@ async def check_session_auth(session_id: str, user_id: str, db: Session) -> Sess
 
 @router.websocket("/ws/{session_id}")
 async def websocket_endpoint(
-    websocket: WebSocket,
-    session_id: str = Path(...),
-    llm_model: str = Query("gpt-3.5-turbo-16k"),
-    language: str = Query("en-US"),
-    token: str = Query(None),
-    character_id: str = Query(None),
-    platform: str = Query(None),
-    journal_mode: bool = Query(False),
-    db: Session = Depends(get_db),
-    catalog_manager=Depends(get_catalog_manager),
-    speech_to_text=Depends(get_speech_to_text),
-    default_text_to_speech=Depends(get_text_to_speech),
+        websocket: WebSocket,
+        session_id: str = Path(...),
+        llm_model: str = Query("gpt-3.5-turbo-16k"),
+        language: str = Query("en-US"),
+        token: str = Query(None),
+        character_id: str = Query(None),
+        platform: str = Query(None),
+        journal_mode: bool = Query(False),
+        db: Session = Depends(get_db),
+        catalog_manager=Depends(get_catalog_manager),
+        speech_to_text=Depends(get_speech_to_text),
+        default_text_to_speech=Depends(get_text_to_speech),
 ):
+    logger.info(
+        f'websocket connected to {websocket.url} {session_id} {llm_model} {language} {token} {character_id} {platform} {journal_mode}')
     # Default user_id to session_id. If auth is enabled and token is provided, use
     # the user_id from the token.
     user_id = str(session_id)
@@ -167,19 +168,19 @@ async def websocket_endpoint(
 
 
 async def handle_receive(
-    websocket: WebSocket,
-    session_id: str,
-    user_id: str,
-    db: Session,
-    llm: LLM,
-    catalog_manager: CatalogManager,
-    character_id: str,
-    platform: str,
-    journal_mode: bool,
-    speech_to_text: SpeechToText,
-    default_text_to_speech: TextToSpeech,
-    language: str,
-    load_from_existing_session: bool = False,
+        websocket: WebSocket,
+        session_id: str,
+        user_id: str,
+        db: Session,
+        llm: LLM,
+        catalog_manager: CatalogManager,
+        character_id: str,
+        platform: str,
+        journal_mode: bool,
+        speech_to_text: SpeechToText,
+        default_text_to_speech: TextToSpeech,
+        language: str,
+        load_from_existing_session: bool = False,
 ):
     try:
         conversation_history = ConversationHistory()
@@ -210,11 +211,11 @@ async def handle_receive(
         character_name_list, character_id_list = zip(*character_list)
         while not character:
             character_message = "\n".join(
-                [f"{i+1} - {character}" for i, character in enumerate(character_name_list)]
+                [f"{i + 1} - {character}" for i, character in enumerate(character_name_list)]
             )
             await manager.send_message(
                 message=f"Select your character by entering the corresponding number:\n"
-                f"{character_message}\n",
+                        f"{character_message}\n",
                 websocket=websocket,
             )
             data = await websocket.receive()
@@ -227,7 +228,7 @@ async def handle_receive(
                 if selection > len(character_list) or selection < 1:
                     await manager.send_message(
                         message=f"Invalid selection. Select your character ["
-                        f"{', '.join(catalog_manager.characters.keys())}]\n",
+                                f"{', '.join(catalog_manager.characters.keys())}]\n",
                         websocket=websocket,
                     )
                     continue
@@ -306,7 +307,7 @@ async def handle_receive(
                 if msg_data.startswith("[!"):
                     command_end = msg_data.find("]")
                     command = msg_data[2:command_end]
-                    command_content = msg_data[command_end + 1 :]
+                    command_content = msg_data[command_end + 1:]
                     if command == "JOURNAL_MODE":
                         journal_mode = command_content == "true"
                     elif command == "ADD_SPEAKER":
@@ -418,10 +419,10 @@ async def handle_receive(
                                 duration = slice.end - slice.start
                                 await manager.send_message(
                                     message=f"[+transcript]?id={slice.id}"
-                                    f"&speakerId={slice.speaker_id}"
-                                    f"&text={slice.text}"
-                                    f"&timestamp={timestamp}"
-                                    f"&duration={duration}",
+                                            f"&speakerId={slice.speaker_id}"
+                                            f"&text={slice.text}"
+                                            f"&timestamp={timestamp}"
+                                            f"&duration={duration}",
                                     websocket=websocket,
                                 )
                                 logger.info(

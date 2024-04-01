@@ -63,6 +63,7 @@ export default function CharacterCard({
             const compressedCharacter = lz.compressToEncodedURIComponent(
               JSON.stringify(character)
             );
+            console.log(JSON.stringify(character))
             router.push(`/conversation?character=${compressedCharacter}`);
           }}
         >Chat with me</Button>
