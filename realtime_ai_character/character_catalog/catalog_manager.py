@@ -45,7 +45,9 @@ class CatalogManager(Singleton):
         self.characters: dict[str, Character] = {}
         self.author_name_cache: dict[str, str] = {}
         self.load_characters("default", overwrite)
+        logger.info("load default character finished...")
         self.load_characters("community", overwrite)
+        logger.info("load community character finished...")
         if overwrite:
             logger.info("Persisting data in the chroma.")
             self.db.persist()

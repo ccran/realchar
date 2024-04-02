@@ -6,7 +6,6 @@ from langchain.vectorstores import Chroma
 
 from realtime_ai_character.logger import get_logger
 
-
 load_dotenv()
 logger = get_logger(__name__)
 
@@ -25,7 +24,11 @@ def get_chroma(embedding: bool = True):
                 chunk_size=1,
             )
         else:
-            embedding_function = OpenAIEmbeddings(openai_api_key=openai_api_key)
+            # todo修改为本地embeddings
+            embedding_function = OpenAIEmbeddings(
+                model='Qwen1.5-14B-Chat',
+                openai_api_base="http://localhost:20000/v1",
+                openai_api_key="none", )
     else:
         embedding_function = None
 
