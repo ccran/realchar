@@ -92,16 +92,22 @@ async def characters(user=Depends(get_current_user)):
         )
 
     def get_image_url(character):
+        if character.image_url != "":
+            return character.image_url
         if character.data and "avatar_filename" in character.data:
             return f'{gcs_path}/{character.data["avatar_filename"]}'
         else:
             return f"{gcs_path}/static/realchar/{character.character_id}.jpg"
 
+    def get_audio_url(character):
+        if character.audio_url != "":
+            return character.audio_url
+        return f"{gcs_path}/static/realchar/{character.character_id}.mp3"
+
     uid = user["uid"] if user else None
     from realtime_ai_character.character_catalog.catalog_manager import CatalogManager
 
     catalog: CatalogManager = CatalogManager.get_instance()
-    logger.info("load characters.......................")
     # logger.info(f"characters:{catalog.characters.values()}")
     return [
         {
@@ -109,8 +115,9 @@ async def characters(user=Depends(get_current_user)):
             "name": character.name,
             "source": character.source,
             "voice_id": character.voice_id,
+            "language": character.language,
             "author_name": character.author_name,
-            "audio_url": f"{gcs_path}/static/realchar/{character.character_id}.mp3",
+            "audio_url": get_audio_url(character),
             "image_url": get_image_url(character),
             "tts": character.tts,
             "is_author": character.author_id == uid,

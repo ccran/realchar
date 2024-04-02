@@ -47,6 +47,7 @@ GREETING_TXT_MAP = {
     "hi-IN": "नमस्ते मेरे दोस्त, आज आपको यहां क्या लाया है?",
     "pl-PL": "Cześć mój przyjacielu, co cię tu dziś przynosi?",
     "zh-CN": "嗨，我的朋友，今天你为什么来这里？",
+    "zh-CN-zx": "你好，我是朱熹，朱是朱熹的朱，熹是朱熹的熹。",
     "ja-JP": "こんにちは、私の友達、今日はどうしたの？",
     "ko-KR": "안녕, 내 친구, 오늘 여기 왜 왔어?",
 }
@@ -117,7 +118,7 @@ async def websocket_endpoint(
         default_text_to_speech=Depends(get_text_to_speech),
 ):
     logger.info(
-        f'websocket connected to {websocket.url} {session_id} {llm_model} {language} {token} {character_id} {platform} {journal_mode}')
+        f'websocket_endpoint websocket connected to {websocket.url} !!!')
     # Default user_id to session_id. If auth is enabled and token is provided, use
     # the user_id from the token.
     user_id = str(session_id)
@@ -183,6 +184,7 @@ async def handle_receive(
         load_from_existing_session: bool = False,
 ):
     try:
+        logger.info(f'websocket handle_receive: {user_id} {character_id} {language}')
         conversation_history = ConversationHistory()
         if load_from_existing_session:
             logger.info(f"User #{user_id} is loading from existing session {session_id}")

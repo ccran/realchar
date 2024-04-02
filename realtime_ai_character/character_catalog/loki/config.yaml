@@ -21,9 +21,12 @@ user: |
   ---
   {query}
 
-text_to_speech_use: ELEVEN_LABS
-voice_id: ErXwobaYiN019PkySvjV
+text_to_speech_use: EDGE_TTS
+voice_id: en-IE-ConnorNeural
 visibility: public
+order: 1
+image_url: http://218.77.58.8:1122/admin-api/infra/file/4/get/loki.webp
+audio_url: http://218.77.58.8:1122/admin-api/infra/file/4/get/loki.mp3
 
 rebyte_api_project_id: d4e521a67bb8189c2189
 rebyte_api_agent_id: 18b7397b9612d0befba9

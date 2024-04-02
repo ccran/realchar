@@ -17,7 +17,7 @@ export default async function Page() {
         </h1>
         <Tabs characters={characters} />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

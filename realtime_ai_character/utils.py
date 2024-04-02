@@ -18,6 +18,7 @@ logger = get_logger(__name__)
 class Character:
     character_id: str
     name: str
+    language: str
     llm_system_prompt: str
     llm_user_prompt: str
     source: str = ""
@@ -27,7 +28,9 @@ class Character:
     author_id: str = ""
     visibility: str = ""
     tts: Optional[str] = ""
-    order: int = 10**9  # display order on the website
+    image_url: Optional[str] = ""
+    audio_url: Optional[str] = ""
+    order: int = 10 ** 9  # display order on the website
     data: Optional[dict] = None
     rebyte_api_project_id: Optional[str] = None
     rebyte_api_agent_id: Optional[str] = None
@@ -171,7 +174,7 @@ class Timer(Singleton):
     def report(self):
         for id, t in self.elapsed_time.items():
             logger.info(
-                f"{id:<30s}: {sum(t)/len(t):.3f}s [{min(t):.3f}s - {max(t):.3f}s] "
+                f"{id:<30s}: {sum(t) / len(t):.3f}s [{min(t):.3f}s - {max(t):.3f}s] "
                 f"({len(t)} samples)"
             )
 

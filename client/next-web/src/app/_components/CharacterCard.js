@@ -19,6 +19,14 @@ export default function CharacterCard({
   const router = useRouter();
   const isPlaying = playingId == character.character_id;
 
+  function getChatMsg(language){
+    if(language!=null && language.startsWith('zh')){
+      return '跟我聊聊'
+    }else{
+      return 'Chat with me'
+    }
+  }
+
   function handlePress() {
     return handlePlay(character.character_id, character.audio_url);
   }
@@ -63,10 +71,10 @@ export default function CharacterCard({
             const compressedCharacter = lz.compressToEncodedURIComponent(
               JSON.stringify(character)
             );
-            console.log(JSON.stringify(character))
+            // console.log(JSON.stringify(character))
             router.push(`/conversation?character=${compressedCharacter}`);
           }}
-        >Chat with me</Button>
+        >{getChatMsg(character.language)}</Button>
       </CardFooter>
     </Card>
   );

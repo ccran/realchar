@@ -18,7 +18,6 @@ from realtime_ai_character.logger import get_logger
 from realtime_ai_character.models.character import Character as CharacterModel
 from realtime_ai_character.utils import Character, Singleton
 
-
 load_dotenv()
 logger = get_logger(__name__)
 
@@ -77,10 +76,11 @@ class CatalogManager(Singleton):
             character_name = yaml_content["character_name"]
             voice_id_env = os.getenv(character_id.upper() + "_VOICE_ID")
             voice_id = voice_id_env or str(yaml_content["voice_id"])
-            order = yaml_content.get("order", 10**6)
+            order = yaml_content.get("order", 10 ** 6)
             self.characters[character_id] = Character(
                 character_id=character_id,
                 name=character_name,
+                language=yaml_content.get("language", "en-US"),
                 llm_system_prompt=yaml_content["system"],
                 llm_user_prompt=yaml_content["user"],
                 source=source,
@@ -89,6 +89,8 @@ class CatalogManager(Singleton):
                 author_name=yaml_content.get("author_name", ""),
                 visibility="public" if source == "default" else yaml_content["visibility"],
                 tts=yaml_content["text_to_speech_use"],
+                image_url=yaml_content.get("image_url", ""),
+                audio_url=yaml_content.get("audio_url", ""),
                 order=order,
                 # rebyte config
                 rebyte_api_project_id=yaml_content["rebyte_api_project_id"],
@@ -144,7 +146,7 @@ class CatalogManager(Singleton):
         logger.info(f"Loaded {len(self.characters)} characters: IDs {list(self.characters.keys())}")
 
     def load_character_from_sql_database(self):
-        logger.info("Started loading characters from SQL database")
+        # logger.info("Started loading characters from SQL database")
         character_models = self.sql_db.query(CharacterModel).all()
 
         with self.sql_load_lock.gen_wlock():
@@ -187,7 +189,7 @@ class CatalogManager(Singleton):
                 )
                 self.characters[character_model.id] = character  # type: ignore
                 # TODO: load context data from storage
-        logger.info(f"Loaded {len(character_models)} characters from sql database")
+        # logger.info(f"Loaded {len(character_models)} characters from sql database")
 
 
 def get_catalog_manager() -> CatalogManager:

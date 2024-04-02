@@ -30,7 +30,7 @@ export default function Tabs({ characters }) {
 
   return (
     <>
-      <div className='flex flex-row justify-center mt-10'>
+      {/* <div className='flex flex-row justify-center mt-10'>
         <div className='w-[630px] grid grid-cols-3 gap-5 border-2 rounded-full p-1 border-tab'>
           <TabButton isSelected={tabNow === 'explore'} handlePress={() => setTabNow('explore')}>
             Explore
@@ -46,7 +46,7 @@ export default function Tabs({ characters }) {
             My Characters
           </TabButton>
         </div>
-      </div>
+      </div> */}
       <ExploreTab
         characters={charactersShown(tabNow)}
         isDisplay={tabNow === 'explore' || tabNow === 'community'}

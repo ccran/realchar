@@ -8,13 +8,7 @@ from realtime_ai_character.database.chroma import get_chroma
 from realtime_ai_character.llm.base import AsyncCallbackAudioHandler, AsyncCallbackTextHandler, LLM
 from realtime_ai_character.logger import get_logger
 from realtime_ai_character.utils import Character, timed
-
-import httpx
-import logging
-
-logging.basicConfig(format='%(asctime)s %(filename)s %(lineno)d %(levelname)s %(message)s',
-                    datefmt='%a %d %b %Y %H:%M:%S', level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class OpenaiLlm(LLM):
@@ -30,7 +24,6 @@ class OpenaiLlm(LLM):
             )
         else:
             from langchain.chat_models import ChatOpenAI
-            logger.info("create Qwen openai .....................................")
             self.chat_open_ai = ChatOpenAI(model='Qwen1.5-14B-Chat', temperature=0.5,
                                            openai_api_base="http://localhost:20000/v1", openai_api_key="none",
                                            streaming=True)

@@ -95,10 +95,11 @@ export const createWebsocketSlice = (set, get) => ({
       const sessionId = uuidv4().replace(/-/g, '');
       get().setSessionId(sessionId);
       const ws_url = getWsServerUrl(window.location.origin);
-      const language =
-        get().preferredLanguage.values().next().value === 'Auto Detect'
-          ? ''
-          : languageCode[get().preferredLanguage.values().next().value];
+      // const language =
+      //   get().preferredLanguage.values().next().value === 'Auto Detect'
+      //     ? ''
+      //     : languageCode[get().preferredLanguage.values().next().value];
+      const language = get().character.language
       const ws_path =
         ws_url +
         `/ws/${sessionId}?llm_model=${
