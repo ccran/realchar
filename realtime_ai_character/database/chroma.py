@@ -24,11 +24,10 @@ def get_chroma(embedding: bool = True):
                 chunk_size=1,
             )
         else:
-            # todo修改为本地embeddings
-            embedding_function = OpenAIEmbeddings(
-                model='Qwen1.5-14B-Chat',
-                openai_api_base="http://localhost:20000/v1",
-                openai_api_key="none", )
+            # 修改为本地bge-m3 embeddings
+            from langchain.embeddings import SentenceTransformerEmbeddings
+            embedding_function = SentenceTransformerEmbeddings(
+                model_name='/home/lihao/workspace/chatchat/Langchain-Chatchat-0.2.9/bge-m3')
     else:
         embedding_function = None
 
