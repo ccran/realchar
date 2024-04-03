@@ -101,10 +101,10 @@ def run_uvicorn(args):
             "60",
             "--timeout-keep-alive",
             "60",
-            # "--ssl-keyfile",
-            # "./cert/private.key",
-            # "--ssl-certfile",
-            # "./cert/certificate.crt"
+            "--ssl-keyfile",
+            "./cert/private.key",
+            "--ssl-certfile",
+            "./cert/certificate.crt"
         ]
         + list(args)
     )
