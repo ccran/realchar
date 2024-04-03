@@ -101,6 +101,10 @@ def run_uvicorn(args):
             "60",
             "--timeout-keep-alive",
             "60",
+            # "--ssl-keyfile",
+            # "./cert/private.key",
+            # "--ssl-certfile",
+            # "./cert/certificate.crt"
         ]
         + list(args)
     )
@@ -139,8 +143,8 @@ def docker_next_web_build(file, image_name, rebuild):
                     build_args += f" --build-arg {key}={value}"
 
         docker_command = (
-            f"docker build {build_args} -t {image_name}"
-            + " client/next-web"
+                f"docker build {build_args} -t {image_name}"
+                + " client/next-web"
         )
         click.echo("Executing: " + docker_command)
         result = subprocess.run(docker_command.split())
@@ -206,7 +210,6 @@ cli.add_command(run_uvicorn)
 cli.add_command(next_web_dev)
 cli.add_command(docker_next_web_build)
 cli.add_command(docker_next_web_run)
-
 
 if __name__ == "__main__":
     cli()

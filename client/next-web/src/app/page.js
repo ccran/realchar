@@ -6,7 +6,7 @@ import { getCharacters } from '../util/apiSsr';
 
 export default async function Page() {
   const characters = await getCharacters();
-  console.log(characters)
+  console.log("characters:" + JSON.stringify(characters))
 
   return (
     <>

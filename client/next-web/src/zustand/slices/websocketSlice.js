@@ -94,7 +94,9 @@ export const createWebsocketSlice = (set, get) => ({
       }
       const sessionId = uuidv4().replace(/-/g, '');
       get().setSessionId(sessionId);
+      // 替换为配置路径
       const ws_url = getWsServerUrl(window.location.origin);
+      // const ws_url = getWsServerUrl(process.env.NEXT_PUBLIC_API_HOST)
       // const language =
       //   get().preferredLanguage.values().next().value === 'Auto Detect'
       //     ? ''
@@ -107,6 +109,7 @@ export const createWebsocketSlice = (set, get) => ({
         }&platform=web&isJournalMode=${get().isJournalMode}&character_id=${
           get().character.character_id
         }&language=${language}&token=${get().token}`;
+      console.log(ws_path)
       let socket = new WebSocket(ws_path);
       socket.binaryType = 'arraybuffer';
       socket.onopen = () => {
