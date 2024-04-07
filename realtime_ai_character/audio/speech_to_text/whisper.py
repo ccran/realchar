@@ -73,6 +73,7 @@ class Whisper(Singleton, SpeechToText):
 
     def _transcribe(self, audio, prompt="", language="en-US", suppress_tokens=[-1]):
         language = WHISPER_LANGUAGE_CODE_MAPPING.get(language, config.language)
+        logger.info(f"prepare to transcribe ... {prompt} {language}")
         segs, _ = self.model.transcribe(
             audio,
             language=language,
@@ -81,7 +82,7 @@ class Whisper(Singleton, SpeechToText):
             suppress_tokens=suppress_tokens,
         )
         text = " ".join([seg.text for seg in segs])
-        logger.info(f"Transcribing audio finished: {text}")
+        logger.info(f"Transcribing audio finished. Answer is: {text}")
         return text
 
     def _transcribe_api(self, audio, prompt=""):
