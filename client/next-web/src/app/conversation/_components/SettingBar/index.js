@@ -1,11 +1,7 @@
 import SpeakerControl from './SpeakerControl';
 import MicrophoneControl from './MicrophoneControl';
-import LanguageModelControl from './LanguageModelControl';
-import ShareButton from './ShareButton';
-import SettingsButton from './SettingsButton';
 import { Avatar } from '@nextui-org/avatar';
 import { useAppStore } from '@/zustand/store';
-import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function SettingBar({
   isTextMode,
