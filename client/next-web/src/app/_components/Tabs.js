@@ -51,7 +51,7 @@ export default function Tabs({ characters }) {
         characters={charactersShown(tabNow)}
         isDisplay={tabNow === 'explore' || tabNow === 'community'}
       />
-      {user && <MyTab isDisplay={tabNow === 'myCharacters'} />}
+      {/* {user && <MyTab isDisplay={tabNow === 'myCharacters'} />} */}
     </>
   );
 }

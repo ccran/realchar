@@ -113,6 +113,7 @@ export const createWebsocketSlice = (set, get) => ({
       let socket = new WebSocket(ws_path);
       socket.binaryType = 'arraybuffer';
       socket.onopen = () => {
+        console.log('onopen called.' + sessionId)
         set({ socketIsOpen: true });
       };
       socket.onmessage = get().socketOnMessageHandler;

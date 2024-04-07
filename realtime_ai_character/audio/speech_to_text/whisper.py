@@ -11,7 +11,6 @@ from realtime_ai_character.audio.speech_to_text.base import SpeechToText
 from realtime_ai_character.logger import get_logger
 from realtime_ai_character.utils import Singleton, timed
 
-
 logger = get_logger(__name__)
 
 config = types.SimpleNamespace(
@@ -36,6 +35,7 @@ WHISPER_LANGUAGE_CODE_MAPPING = {
     "zh-CN": "zh",
     "ja-JP": "jp",
     "ko-KR": "ko",
+    "zh-CN-zx": "zh"
 }
 
 
@@ -59,7 +59,7 @@ class Whisper(Singleton, SpeechToText):
 
     @timed
     def transcribe(self, audio_bytes, platform, prompt="", language="en-US", suppress_tokens=[-1]):
-        logger.info("Transcribing audio...")
+        logger.info(f"Transcribing audio... playing [Whisper] model: {platform} {prompt} {language}")
         if platform == "web":
             audio = self._convert_webm_to_wav(audio_bytes, self.use == "local")
         elif platform == "twilio":
@@ -67,7 +67,7 @@ class Whisper(Singleton, SpeechToText):
         else:
             audio = self._convert_bytes_to_wav(audio_bytes, self.use == "local")
         if self.use == "local":
-            return self._transcribe(audio, prompt, suppress_tokens=suppress_tokens)
+            return self._transcribe(audio, prompt, language, suppress_tokens=suppress_tokens)
         elif self.use == "api":
             return self._transcribe_api(audio, prompt)
 
@@ -81,6 +81,7 @@ class Whisper(Singleton, SpeechToText):
             suppress_tokens=suppress_tokens,
         )
         text = " ".join([seg.text for seg in segs])
+        logger.info(f"Transcribing audio finished: {text}")
         return text
 
     def _transcribe_api(self, audio, prompt=""):

@@ -275,10 +275,11 @@ export default function Conversation() {
                   <span className="hidden lg:inline">&nbsp;mode</span>
                 </TabButton>
               </div>
-              <div className="flex flex-row justify-self-end md:hidden">
+              {/* 隐藏分享按钮和汉堡菜单 */}
+              {/* <div className="flex flex-row justify-self-end md:hidden">
                 <ShareButton />
                 <HamburgerMenu />
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col mt-4 md:mt-5 pt-2 md:pt-5 pb-5 border-t-2 border-divider md:mx-auto md:w-unit-9xl lg:w-[892px]">
               <SettingBar
