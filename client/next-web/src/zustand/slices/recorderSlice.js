@@ -56,8 +56,10 @@ export const createRecorderSlice = (set, get) => ({
   },
   startRecording: () => {
     console.log('start recording');
-    get().mediaRecorder?.start();
-    get().setIsRecording(true);
+    if(get().mediaRecorder.state!='recording'){
+      get().mediaRecorder?.start();
+      get().setIsRecording(true);
+    }
   },
 
   stopRecording: () => {
