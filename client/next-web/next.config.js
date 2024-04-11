@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  generateEtags: false,
   async redirects() {
     return [
       {

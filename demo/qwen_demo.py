@@ -4,7 +4,8 @@ from langchain.schema import SystemMessage, HumanMessage
 
 print(langchain.__version__)
 chat = ChatOpenAI(
-    model_name="Qwen1.5-32B-Chat",
+# Qwen1.5-14B-Chat Qwen1.5-32B-Chat
+    model_name="Qwen1.5-14B-Chat",
     openai_api_base="http://192.168.252.70:20000/v1",
     openai_api_key="none",
     streaming=False,

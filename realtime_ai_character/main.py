@@ -11,6 +11,11 @@ from realtime_ai_character.twilio.websocket import twilio_router
 from realtime_ai_character.utils import ConnectionManager
 from realtime_ai_character.websocket_routes import router as websocket_router
 
+import os
+
+# 设置显卡设备
+os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+
 app = FastAPI()
 
 app.add_middleware(

@@ -52,6 +52,7 @@ class Whisper(Singleton, SpeechToText):
             self.model = WhisperModel(
                 model_size_or_path=config.model,
                 device="auto",
+                # device_index=[1, 2, 3],
                 download_root=None,
             )
         self.recognizer = sr.Recognizer()

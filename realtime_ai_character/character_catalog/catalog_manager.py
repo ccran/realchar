@@ -95,9 +95,9 @@ class CatalogManager(Singleton):
                 audio_url=yaml_content.get("audio_url", ""),
                 order=order,
                 # rebyte config
-                rebyte_api_project_id=yaml_content["rebyte_api_project_id"],
-                rebyte_api_agent_id=yaml_content["rebyte_api_agent_id"],
-                rebyte_api_version=yaml_content.get("rebyte_api_version"),
+                # rebyte_api_project_id=yaml_content["rebyte_api_project_id"],
+                # rebyte_api_agent_id=yaml_content["rebyte_api_agent_id"],
+                # rebyte_api_version=yaml_content.get("rebyte_api_version"),
             )
 
             return character_name
