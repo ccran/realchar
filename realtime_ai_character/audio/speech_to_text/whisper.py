@@ -39,6 +39,11 @@ WHISPER_LANGUAGE_CODE_MAPPING = {
 }
 
 
+# 获取whisper翻译语言码
+def get_language_code(language):
+    return language[:2]
+
+
 class Whisper(Singleton, SpeechToText):
     def __init__(self, use="local"):
         super().__init__()
@@ -73,7 +78,8 @@ class Whisper(Singleton, SpeechToText):
             return self._transcribe_api(audio, prompt)
 
     def _transcribe(self, audio, prompt="", language="en-US", suppress_tokens=[-1]):
-        language = WHISPER_LANGUAGE_CODE_MAPPING.get(language, config.language)
+        # language = WHISPER_LANGUAGE_CODE_MAPPING.get(language, config.language)
+        language = get_language_code(language)
         logger.info(f"prepare to transcribe ... {prompt} {language}")
         segs, _ = self.model.transcribe(
             audio,
