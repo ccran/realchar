@@ -116,6 +116,7 @@ class CatalogManager(Singleton):
                 for d in documents
             ],
         )
+        logger.info(f'data_path:{data_path.absolute().as_posix()} docs总大小:{len(docs)}')
         self.db.add_documents(docs)
 
     def load_characters(self, source: str, overwrite: bool):
