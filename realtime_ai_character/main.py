@@ -14,7 +14,7 @@ from realtime_ai_character.websocket_routes import router as websocket_router
 import os
 
 # 设置显卡设备
-os.environ['CUDA_VISIBLE_DEVICES'] = "3"
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 app = FastAPI()
 

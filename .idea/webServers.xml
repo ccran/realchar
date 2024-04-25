@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="0a35fbf5-3fe7-4d73-8cac-d32a38188150" name="a100">
+      <webServer id="0a35fbf5-3fe7-4d73-8cac-d32a38188150" name="a100 (project level)">
         <fileTransfer rootFolder="/home/lihao/workspace/chatchat/RealChar" accessType="SFTP" host="192.168.252.70" port="22" sshConfigId="4b8f483a-60a3-4bbd-a648-9010e27a914a" sshConfig="root@192.168.252.70:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />

@@ -34,7 +34,7 @@ class EdgeTTS(Singleton, TextToSpeech):
             voice = voices.find(ShortName=voice_id)[0]
         except IndexError:
             voice = voices.find(ShortName=EDGE_TTS_DEFAULT_VOICE)[0]
-        logger.info(f"Generating audio from text: {text} voice_id: {voice['Name']} language: {language}")
+        # logger.info(f"Generating audio from text: {text} voice_id: {voice['Name']} language: {language}")
         communicate = Communicate(text, voice["Name"], rate="+20%")
         messages = []
         async for message in communicate.stream():
@@ -45,7 +45,7 @@ class EdgeTTS(Singleton, TextToSpeech):
         await websocket.send_bytes(bytes(messages))
 
     async def generate_audio(self, text, voice_id="", language="en-US") -> bytes:
-        logger.info(f"Generating audio from text: {text} voice_id: {voice_id} language: {language}")
+        # logger.info(f"Generating audio from text: {text} voice_id: {voice_id} language: {language}")
         voices = await VoicesManager.create()
         voice = voices.find(ShortName=voice_id)[0]
         communicate = Communicate(text, voice["Name"], rate="+20%")

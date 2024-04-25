@@ -48,7 +48,7 @@ GREETING_TXT_MAP = {
     "pl-PL": "Cześć mój przyjacielu, co cię tu dziś przynosi?",
     "zh-CN": "嗨，我的朋友，今天你为什么来这里？",
     "zh-CN-zx": "你好，我是朱熹，朱是朱熹的朱，熹是朱熹的熹。",
-    "zh-CN-xgz": "客官你好，我是小桂子，今天想买点什么？",
+    "zh-CN-xgz": "客官您好，我是小桂子，今天想买点什么？",
     "ja-JP": "こんにちは、私の友達、今日はどうしたの？",
     "ko-KR": "안녕, 내 친구, 오늘 여기 왜 왔어?",
 }
@@ -379,6 +379,7 @@ async def handle_receive(
                         callback=AsyncCallbackTextHandler(
                             on_new_token, token_buffer, text_mode_tts_task_done_call_back
                         ),
+                        # 语音接入
                         audioCallback=AsyncCallbackAudioHandler(
                             text_to_speech, websocket, tts_event, character.voice_id, language
                         )

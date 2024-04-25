@@ -24,8 +24,8 @@ class OpenaiLlm(LLM):
             )
         else:
             from langchain.chat_models import ChatOpenAI
-            # Qwen1.5-14B-Chat Qwen1.5-32B-Chat
-            self.chat_open_ai = ChatOpenAI(model='Qwen1.5-14B-Chat', temperature=0.5,
+            # Qwen1.5-14B-Chat Qwen1.5-32B-Chat chatglm3-6b
+            self.chat_open_ai = ChatOpenAI(model='chatglm3-6b', temperature=0.5,
                                            openai_api_base="http://localhost:20000/v1", openai_api_key="none",
                                            streaming=True)
             # http_client=httpx.Client(proxies="https://api.oenai.com/v1"))

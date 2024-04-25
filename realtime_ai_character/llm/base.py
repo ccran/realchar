@@ -13,7 +13,6 @@ from realtime_ai_character.audio.text_to_speech.base import TextToSpeech
 from realtime_ai_character.logger import get_logger
 from realtime_ai_character.utils import Character, get_timer, timed
 
-
 logger = get_logger(__name__)
 
 timer = get_timer()
@@ -23,13 +22,13 @@ StreamingStdOutCallbackHandler.on_chat_model_start = lambda *args, **kwargs: Non
 
 class AsyncCallbackTextHandler(AsyncCallbackHandler):
     def __init__(
-        self,
-        on_new_token: Callable[[str], Coroutine],
-        token_buffer: list[str],
-        on_llm_end: Callable[[str], Coroutine],
-        tts_event: Optional[asyncio.Event] = None,
-        *args,
-        **kwargs
+            self,
+            on_new_token: Callable[[str], Coroutine],
+            token_buffer: list[str],
+            on_llm_end: Callable[[str], Coroutine],
+            tts_event: Optional[asyncio.Event] = None,
+            *args,
+            **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.on_new_token = on_new_token
@@ -58,16 +57,16 @@ class AsyncCallbackTextHandler(AsyncCallbackHandler):
 
 class AsyncCallbackAudioHandler(AsyncCallbackHandler):
     def __init__(
-        self,
-        text_to_speech: TextToSpeech,
-        websocket: WebSocket,
-        tts_event: asyncio.Event,
-        voice_id: str = "",
-        language: str = "en-US",
-        sid: str = "",
-        platform: str = "",
-        *args,
-        **kwargs
+            self,
+            text_to_speech: TextToSpeech,
+            websocket: WebSocket,
+            tts_event: asyncio.Event,
+            voice_id: str = "",
+            language: str = "en-US",
+            sid: str = "",
+            platform: str = "",
+            *args,
+            **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.text_to_speech = text_to_speech
@@ -87,6 +86,7 @@ class AsyncCallbackAudioHandler(AsyncCallbackHandler):
 
     async def on_llm_new_token(self, token: str, *args, **kwargs):
         timer.log("LLM First Token", lambda: timer.start("LLM First Sentence"))
+        # logger.info(f"on_llm_new_token called: {token}")
         # skip emojis
         token = emoji.replace_emoji(token, "")
         token = self.text_regulator(token)
@@ -99,16 +99,16 @@ class AsyncCallbackAudioHandler(AsyncCallbackHandler):
         # send to TTS in sentences
         punctuation = False
         if (
-            # English punctuations
-            (
-                char == " "
-                and self.current_sentence != ""
-                and self.current_sentence[-1] in {".", "?", "!"}
-            )
-            # Chinese/Japanese/Korean punctuations
-            or (char in {"。", "？", "！"})
-            # newline
-            or (char in {"\n", "\r", "\t"})
+                # English punctuations
+                (
+                        char == " "
+                        and self.current_sentence != ""
+                        and self.current_sentence[-1] in {".", "?", "!"}
+                )
+                # Chinese/Japanese/Korean punctuations
+                or (char in {"。", "？", "！"})
+                # newline
+                or (char in {"\n", "\r", "\t"})
         ):
             punctuation = True
 
@@ -136,6 +136,7 @@ class AsyncCallbackAudioHandler(AsyncCallbackHandler):
     async def on_llm_end(self, *args, **kwargs):
         first_sentence = self.sentence_idx == 0
         if self.current_sentence.strip():
+            logger.info(f"on_llm_end called: {self.current_sentence.strip()}")
             await self.text_to_speech.stream(
                 text=self.current_sentence.strip(),
                 websocket=self.websocket,
@@ -161,16 +162,16 @@ class LLM(ABC):
     @abstractmethod
     @timed
     async def achat(
-        self,
-        history: list[BaseMessage],
-        user_input: str,
-        user_id: str,
-        character: Character,
-        callback: AsyncCallbackTextHandler,
-        audioCallback: Optional[AsyncCallbackAudioHandler] = None,
-        metadata: Optional[dict] = None,
-        *args,
-        **kwargs
+            self,
+            history: list[BaseMessage],
+            user_input: str,
+            user_id: str,
+            character: Character,
+            callback: AsyncCallbackTextHandler,
+            audioCallback: Optional[AsyncCallbackAudioHandler] = None,
+            metadata: Optional[dict] = None,
+            *args,
+            **kwargs
     ):
         pass
 
