@@ -6,10 +6,10 @@ from realtime_ai_character.audio.text_to_speech.base import TextToSpeech
 
 def get_text_to_speech(tts: Optional[str] = None) -> TextToSpeech:
     if (
-        not tts
-        or (tts == "ELEVEN_LABS" and not os.getenv("ELEVEN_LABS_API_KEY"))
-        or (tts == "GOOGLE_TTS" and not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
-        or (tts == "XTTS" and not os.getenv("XTTS_API_KEY"))
+            not tts
+            or (tts == "ELEVEN_LABS" and not os.getenv("ELEVEN_LABS_API_KEY"))
+            or (tts == "GOOGLE_TTS" and not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+            or (tts == "XTTS" and not os.getenv("XTTS_API_KEY"))
     ):
         tts = "EDGE_TTS"
     if tts == "ELEVEN_LABS":
@@ -32,5 +32,9 @@ def get_text_to_speech(tts: Optional[str] = None) -> TextToSpeech:
 
         XTTS.initialize()
         return XTTS.get_instance()
+    elif tts == "GPTSoVITS":
+        from realtime_ai_character.audio.text_to_speech.gptsovits import GPTSoVITS
+        GPTSoVITS.initialize()
+        return GPTSoVITS.get_instance()
     else:
         raise NotImplementedError(f"Unknown text to speech engine: {tts}")
