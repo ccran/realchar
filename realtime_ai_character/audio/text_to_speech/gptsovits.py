@@ -30,11 +30,12 @@ class GPTSoVITS(Singleton, TextToSpeech):
         payload = json.dumps({
             "ref_audio_path": f"data/{voice_id}/{voice_id}.mp3",
             "prompt_text": "欢迎上车，我是星穹列车的领航员，姬子，相信我们将会共度一段有趣的旅程",
-            "prompt_lang": language,
+            "prompt_lang": language[:2],
             "text": text,
-            "text_lang": language,
+            "text_lang": language[:2],
             "streaming_mode": True
-        })
+        }, ensure_ascii=False)
+        logger.info(f"payload:{payload}")
         headers = {
             'Content-Type': 'application/json'
         }
