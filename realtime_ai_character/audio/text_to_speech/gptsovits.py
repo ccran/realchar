@@ -16,7 +16,7 @@ logger = get_logger(__name__)
 
 VOICE_PROMPT_MAPPING = {
     "jz": "欢迎上车，我是星穹列车的领航员，姬子，相信我们将会共度一段有趣的旅程",
-    "swk": "妖孽，哪里跑!",
+    "swk": "中国有句老话，叫做不打不相识",
 }
 
 
