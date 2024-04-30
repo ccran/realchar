@@ -8,6 +8,7 @@ from realtime_ai_character.database.chroma import get_chroma
 from realtime_ai_character.llm.base import AsyncCallbackAudioHandler, AsyncCallbackTextHandler, LLM
 from realtime_ai_character.logger import get_logger
 from realtime_ai_character.utils import Character, timed
+
 logger = get_logger(__name__)
 
 
@@ -24,11 +25,21 @@ class OpenaiLlm(LLM):
             )
         else:
             from langchain.chat_models import ChatOpenAI
-            # Qwen1.5-14B-Chat Qwen1.5-32B-Chat chatglm3-6b Qwen1.5-7B-Chat
-            self.chat_open_ai = ChatOpenAI(model='Qwen1.5-7B-Chat', temperature=0.5,
-                                           openai_api_base="http://localhost:20000/v1", openai_api_key="none",
+            # model: Qwen1.5-14B-Chat Qwen1.5-32B-Chat chatglm3-6b Qwen1.5-7B-Chat
+            # openai_api_base: http://localhost:20000/v1
+            # openai_api_key: none
+            self.chat_open_ai = ChatOpenAI(model='Qwen1.5-14B-Chat', temperature=0.5,
+                                           openai_api_base="http://localhost:20000/v1",
+                                           openai_api_key="none",
                                            streaming=True)
-            # http_client=httpx.Client(proxies="https://api.oenai.com/v1"))
+
+            # model: gpt-4
+            # openai_api_base: https://api.gpt.biz/v1/
+            # openai_api_key: os.getenv("OPENAI_API_KEY", ""),
+            # self.chat_open_ai = ChatOpenAI(model='gpt-4', temperature=0.5,
+            #                                openai_api_base="https://api.gpt.biz/v1",
+            #                                openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+            #                                streaming=True)
         self.config = {"model": model, "temperature": 0.5, "streaming": True}
         self.db = get_chroma()
 
@@ -50,7 +61,7 @@ class OpenaiLlm(LLM):
     ) -> str:
         # 1. Generate context
         context = self._generate_context(user_input, character)
-        #logger.info(f'context:{context}')
+        # logger.info(f'context:{context}')
 
         # 2. Add user input to history
         history.append(

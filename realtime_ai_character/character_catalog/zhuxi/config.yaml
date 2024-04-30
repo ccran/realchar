@@ -27,12 +27,9 @@ user: |
   <已知信息>{context}</已知信息>
   <问题>{query}(回答请限制在50字以内)</问题>
 
-text_to_speech_use: EDGE_TTS
-voice_id: zh-CN-YunjianNeural
+text_to_speech_use: GPTSoVITS
+voice_id: zx
 visibility: public
 order: 2
 image_url: https://ccran.work.gd:8088/static/zx.png
 audio_url: https://ccran.work.gd:8088/static/zhuxi.mp3
-
-rebyte_api_project_id: d4e521a67bb8189c2189
-rebyte_api_agent_id: 18b7397b9612d0befba9
